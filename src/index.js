@@ -5,6 +5,7 @@ import App from './App.js';
 import * as serviceWorker from './serviceWorker';
 import PunchClock from './components/PunchClock.js';
 import ControlPanel from './components/ControlPanel.js';
+import Signup from './components/signup.js';
 
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
@@ -23,7 +24,7 @@ ReactDOM.render(
 			<Route exact path='/login' render={() => <div><h1>Login Form</h1></div>} />
 			<Route exact path='/shifts' render={() => <div><h1>Shifts</h1></div>} />
 			<Route exact path='/users' render={() => <div><h1>Users</h1></div>} />
-			<Route exact path='/signup' render={() => <div><h1>Signup</h1></div>} />
+			<Route exact path='/signup' component={Signup} />
 		</div>
 	</Router>
   </React.StrictMode>,

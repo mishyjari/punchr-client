@@ -3,7 +3,7 @@ import React from 'react';
 const ActiveShift = props => {
 	return (
 		<div>
-			<h4>{props.shift}</h4>
+			{console.log(props)}
 		</div>
 	)
 }
