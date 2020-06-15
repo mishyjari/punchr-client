@@ -72,8 +72,12 @@ class PunchClock extends React.Component {
 	}
 	
 	closeShift = shift => {
-		console.log('close shift')
-		const user = this.state.selectedUser;
+		console.log('close shift');
+		let shiftArr = [...this.state.activeShifts];
+		const i = shiftArr.indexOf(shift);
+		shiftArr.splice(i,1);
+		console.log('close arr',shiftArr)
+	
 		fetch(SHIFTS_API + `/${shift.id}`, {
 			method: "PATCH",
 			headers: HEADERS,
@@ -83,8 +87,9 @@ class PunchClock extends React.Component {
 		})
 			.then( res => res.json() )
 			.then( shift => {
+				
 				this.setState(prevState => ({
-					activeShifts: prevState.activeShifts.slice(prevState.activeShifts.indexOf(shift),1),
+					activeShifts: shiftArr,
 					pin: ''
 				}))
 			})
