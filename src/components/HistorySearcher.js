@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchResults from './SearchResults.js';
 
 const SHIFTS_API = "http://localhost:3000/shifts";
 
@@ -43,6 +44,7 @@ class HistorySearcher extends React.Component {
           <input name="end" type="date" value={this.state.end.toISOString().split("T")[0]} />
           <button type='submit'>Search</button>
         </form>
+        <SearchResults results={this.state.results} />
       </div>
     )
   }
