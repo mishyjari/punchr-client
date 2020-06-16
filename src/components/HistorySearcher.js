@@ -14,8 +14,11 @@ class HistorySearcher extends React.Component {
   componentWillMount() {
     fetch(SHIFTS_API)
     .then( res => res.json() )
-    .then( shifts => this.setState({ results: shifts }) )
-  }
+    .then( shifts => {
+      this.setState({ results: shifts })
+    })
+  };
+
 
   handleSearch = e => {
     e.preventDefault();
@@ -23,14 +26,16 @@ class HistorySearcher extends React.Component {
       return (Date.parse(shift.start) >= this.state.start) &&
         (Date.parse(shift.start) <= this.state.end)
     })
-    console.log("search results", results);
     this.setState({ results: results })
   };
 
   handleChange = e => {
     e.persist();
     const key = e.target.name;
-    this.setState({ [key]: new Date(e.target.value) })
+    console.log(new Date(e.target.value), key)
+    this.setState(prevState => ({
+      [key]: new Date(e.target.value),
+    }))
   }
 
   render() {

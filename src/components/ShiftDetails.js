@@ -16,7 +16,6 @@ const ShiftDetails = props => {
 
   const totalHours = () => {
     const endTime = !end ? new Date() : end
-    console.log(start,end,endTime)
     const ms = endTime.getTime() - start.getTime();
     return Math.round(ms/36000)/100
   }
