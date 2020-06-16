@@ -1,4 +1,5 @@
 import React from 'react';
+import ActiveShiftsContainer from './ActiveShiftsContainer'
 
 const USERS_API = "http://localhost:3000/users";
 const SHIFTS_API = "http://localhost:3000/shifts";
@@ -155,6 +156,7 @@ class PunchClock extends React.Component {
 					: 
 						<p>user not found</p>
 				}
+				<ActiveShiftsContainer shifts={this.state.activeShifts} />
 			</div>
 		)
 	}
