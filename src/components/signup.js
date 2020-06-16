@@ -26,6 +26,7 @@ class Signup extends React.Component {
 			phone: this.state.phone,
 			password: this.state.password
 		}
+		e.target.reset();
 		fetch('http://localhost:3000/users', {
 			method: "POST",
 			headers: {
@@ -35,11 +36,10 @@ class Signup extends React.Component {
 			body: JSON.stringify(data)
 		})
 			.then( res => res.json() )
-			.then( console.log )
+			.then( user => alert('User Created') )
 	};
 
 	render() {
-		console.log(this.state)
 		return (
 			<div>
 				<form onSubmit={this.handleSubmit} onChange={this.handleChange}>
