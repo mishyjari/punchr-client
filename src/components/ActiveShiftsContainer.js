@@ -12,7 +12,12 @@ const ActiveShiftsContainer = props => {
 		<div>
 			<h3>Active Shifts</h3>
 			{
-				props.activeShifts.map(shift => <ActiveShift shift={shift} user={() => findUserByShift(shift)} />)
+				props.shifts.length > 0
+				?
+					props.shifts.map(shift => <ActiveShift {...shift} />)
+				:
+					<h4>No Active Shifts</h4>
+
 			}
 		</div>
 	)
