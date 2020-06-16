@@ -1,4 +1,5 @@
 import React from 'react';
+import HistorySearcher from './HistorySearcher.js';
 
 const ControlPanel = props => {
 	return (
@@ -13,17 +14,7 @@ const ControlPanel = props => {
 			Should also show or link to contact info for coworkers
 
 			if User is a manager, they will be able to search by user or by all users, update user info, edit, create or delete shifts*/}
-
-			<div>
-				<h3>Search Shift History</h3>
-				<form onSubmit={() => {}}>
-					<label htmlFor="start">Start Date</label>
-					<input type="date" />
-					<label htmlFor="end">End Date</label>
-					<input type="date" />
-					<button type='submit'>Search</button>
-				</form>
-			</div>
+			<HistorySearcher />
 		</div>
 	)
 }
