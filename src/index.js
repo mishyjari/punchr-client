@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import PunchClock from './components/PunchClock.js';
 import ControlPanel from './components/ControlPanel.js';
 import Signup from './components/signup.js';
+import Login from './components/login'
 
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
@@ -21,10 +22,10 @@ ReactDOM.render(
 			<NavLink to='/signup'>Signup</NavLink>
 			<Route exact path='/' component={PunchClock} />
 			<Route exact path='/control-panel' component={ControlPanel} />
-			<Route exact path='/login' render={() => <div><h1>Login Form</h1></div>} />
 			<Route exact path='/shifts' render={() => <div><h1>Shifts</h1></div>} />
 			<Route exact path='/users' render={() => <div><h1>Users</h1></div>} />
 			<Route exact path='/signup' component={Signup} />
+			<Route exact path='/login' component={Login} />
 		</div>
 	</Router>
   </React.StrictMode>,
