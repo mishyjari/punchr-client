@@ -6,7 +6,8 @@ class Login extends React.Component {
     password: '',
     successful: true,
     token: '',
-    exp: '',
+		exp: '',
+		loggedInUser: {},
   }
   
   renderFailedLogin = () => {
@@ -38,14 +39,16 @@ class Login extends React.Component {
           this.setState({
             successful: false,
             token: '',
-            exp: '',
+						exp: '',
+						loggedInUser: {},
           })
         } else {
           res.json().then(json => {
             this.setState({
               successful: true,
               token: json.token,
-              exp: json.exp
+							exp: json.exp,
+							loggedInUser: json.user,
             })
           })
         }
