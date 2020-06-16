@@ -27,7 +27,7 @@ class PunchClock extends React.Component {
 	fetchActiveShifts = () => {
 		fetch(ACTIVE_SHIFTS_API)
 			.then( res => res.json() )
-			.then( activeShifts => this.setState({ activeShifts }))		
+			.then( activeShifts => this.setState({ activeShifts }))
 	};
 
 	componentWillMount(){
@@ -37,9 +37,9 @@ class PunchClock extends React.Component {
 
 	findUserByPin = () => {
 		const pin = Number(this.state.pin);
-		const user = this.state.users.find(user => (user.pin === pin));			
+		const user = this.state.users.find(user => (user.pin === pin));
 		if (user) {
-			this.setState({ selectedUser: user }, console.log(this.findActiveShiftByUser(user)))
+			this.setState({ selectedUser: user })
 		} else {
 			this.setState({ selectedUser: null })
 		};
@@ -57,28 +57,37 @@ class PunchClock extends React.Component {
 		})
 	}
 
+	findUserByShift = shift => {
+		return this.state.users.find(user => (user.id === shift.user_id))
+	};
+
 	newPunch = () => {
 		console.log('new punch')
 		fetch(SHIFTS_API, {
 			method: "POST",
 			headers: HEADERS,
-			body: JSON.stringify({ user_id: this.state.selectedUser.id })
+			body: JSON.stringify({
+				user_id: this.state.selectedUser.id,
+				end: null
+			 })
 		})
 			.then( res => res.json() )
-			.then( shift => this.setState(prevState => ({
-				activeShifts: [...prevState.activeShifts, shift],
-				pin: ''
+			.then( shift => {
+				shift.user = this.findUserByShift(shift);
+				this.setState(prevState => ({
+					activeShifts: [...prevState.activeShifts, shift],
+					pin: ''
+				}))
 				})
-			), console.log(this.state.activeShifts))
 	}
-	
+
 	closeShift = shift => {
 		console.log('close shift');
+
 		let shiftArr = [...this.state.activeShifts];
 		const i = shiftArr.indexOf(shift);
 		shiftArr.splice(i,1);
-		console.log('close arr',shiftArr)
-	
+
 		fetch(SHIFTS_API + `/${shift.id}`, {
 			method: "PATCH",
 			headers: HEADERS,
@@ -88,7 +97,6 @@ class PunchClock extends React.Component {
 		})
 			.then( res => res.json() )
 			.then( shift => {
-				
 				this.setState(prevState => ({
 					activeShifts: shiftArr,
 					pin: ''
@@ -141,7 +149,7 @@ class PunchClock extends React.Component {
 					</table>
 				</form>
 				{
-					this.state.selectedUser 
+					this.state.selectedUser
 					?
 						<div>
 							<h4>{this.state.selectedUser.first_name + " " + this.state.selectedUser.last_name}</h4>
@@ -153,7 +161,7 @@ class PunchClock extends React.Component {
 									<p>User Not Logged In</p>
 							}
 						</div>
-					: 
+					:
 						<p>user not found</p>
 				}
 				<ActiveShiftsContainer shifts={this.state.activeShifts} />
