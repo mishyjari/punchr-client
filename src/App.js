@@ -138,8 +138,22 @@ class App extends React.Component {
 		})
 	}
 
+	addUser = data => {
+		console.log(data)
+		fetch(USERS_API, {
+			method: "POST",
+			headers: HEADERS,
+			body: JSON.stringify(data)
+		})
+		.then( res => res.json() )
+		.then( user => {
+				this.setState(prevState => ({
+					users: [...prevState.users, user]
+				}), alert("User Created!"))
+		})
+	}
+
 	render() {
-		console.log(this.state)
 		return (
 			<div id='main'>
 				<div id='header'>
@@ -156,6 +170,7 @@ class App extends React.Component {
 							return <ControlPanel
 								users={this.state.users}
 								handleUpdateUser={this.handleUpdateUser}
+								addUser={this.addUser}
 								/>
 						}} />
 					<div id='navigation'>

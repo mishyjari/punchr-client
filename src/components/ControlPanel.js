@@ -35,7 +35,6 @@ class ControlPanel extends React.Component {
 
 	render () {
 		const user = this.state.loggedInUser;
-		console.log('cpanel props', this.props)
 		return (
 			<div id='punchr-app'>
 				<h3>Control Panel</h3>
@@ -62,7 +61,7 @@ class ControlPanel extends React.Component {
 									/>
 								<Route
 									exact path='/control-panel/new-user'
-									component={Signup}
+									render={() => <Signup addUser={this.props.addUser} />}
 								/>
 							</Router>
 							</div>

@@ -9,12 +9,17 @@ class Signup extends React.Component {
 		phone: '',
 		password: '',
 		wage: '',
-		confirmPw: ''
+		confirmPw: '',
+		isManager: false
 	}
 
 	handleChange = e => {
 		const key = e.target.name;
-		this.setState({ [key]: e.target.value })
+		if (key === 'isManager'){
+			this.setState({ isManager: e.target.checked })
+		} else {
+			this.setState({ [key]: e.target.value })
+		}
 	};
 
 	handleSubmit = e => {
@@ -26,39 +31,43 @@ class Signup extends React.Component {
 			email: this.state.email,
 			phone: this.state.phone,
 			hourly_wage: this.state.wage,
-			password: this.state.password
+			password: this.state.password,
+			is_manager: this.state.isManager
 		}
-		e.target.reset();
-		fetch('http://localhost:3000/users', {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"Accept": "application/json"
-			},
-			body: JSON.stringify(data)
+		this.props.addUser(data);
+		this.setState({
+			firstName: '',
+			lastName: '',
+			pin: '',
+			email: '',
+			phone: '',
+			password: '',
+			wage: '',
+			confirmPw: ''
 		})
-			.then( res => res.json() )
-			.then( user => alert('User Created') )
 	};
 
 	render() {
+		console.log(this.state)
 		return (
 			<div>
 				<form onSubmit={this.handleSubmit} onChange={this.handleChange}>
-					<label for='firstName'>First Name:</label>
-					<input type="text" name="firstName" /><br />
-					<label for='lastName'>Last Name:</label>
-					<input type="text" name="lastName" /><br />
-					<label for='email'>Email:</label>
-					<input type="text" name="email" /><br />
-					<label for='phone'>Phone Number:</label>
-					<input type="text" name="phone" /><br />
-					<label for='password'>Password:</label>
-					<input type="password" name="password" /><br />
-					<label for='confirmPw'>Confirm Password:</label>
+					<label htmlFor='isManager'>Manager? </label>
+					<input type='checkbox' name='isManager' value={this.state.isManager} /><br />
+					<label htmlFor='firstName'>First Name:</label>
+					<input type="text" name="firstName" value={this.state.firstName} /><br />
+					<label htmlFor='lastName'>Last Name:</label>
+					<input type="text" name="lastName" value={this.state.lastName} /><br />
+					<label htmlFor='email'>Email:</label>
+					<input type="email" name="email" value={this.state.email} /><br />
+					<label htmlFor='phone'>Phone Number:</label>
+					<input type="tel" name="phone" value={this.state.phone} /><br />
+					<label htmlFor='password'>Password:</label>
+					<input type="password" name="password" value={this.state.password} /><br />
+					<label htmlFor='confirmPw'>Confirm Password:</label>
 					<input type="password" name="confirmPw" /><br />
-					<label for='pin'>Select a PIN:</label>
-					<input type="text" name="pin" maxLength="4" /><br />
+					<label htmlFor='pin'>Select a PIN:</label>
+					<input type="text" name="pin" maxLength="4" value={this.state.pin} /><br />
 					<button type='submit'>Submit</button>
 				</form>
 			</div>
