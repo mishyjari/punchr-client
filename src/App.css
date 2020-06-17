@@ -14,6 +14,11 @@ div#punchr-app {
   grid-column: 1
 }
 
+div#navigation {
+  grid-row: 1;
+  grid-column: 2;
+}
+
 .App {
   text-align: center;
 }

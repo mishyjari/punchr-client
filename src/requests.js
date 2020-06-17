@@ -17,7 +17,7 @@ export const getUsers = () => {
 }
 
 export const updateUser = (user) => {
-  const url = USER_ENDPOINT + user.id 
+  const url = USER_ENDPOINT + user.id
   const options = {
     method: 'PATCH',
     headers: {
@@ -26,5 +26,5 @@ export const updateUser = (user) => {
     },
     body: JSON.stringify(user)
   }
-  return fetch(url, options)
+  return fetch(url, options).then( res => res.json() )
 }

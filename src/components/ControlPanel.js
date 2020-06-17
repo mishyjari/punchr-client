@@ -1,22 +1,76 @@
 import React from 'react';
+import Login from './login.js'
 import HistorySearcher from './HistorySearcher.js';
+import Signup from './signup.js'
+import UserDetailsContainer from './containers/UserDetailsContainer.js'
+import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
 
-const ControlPanel = props => {
-	return (
-		<div>
-			<h1>Control Panel</h1>
-			{/* Should display user login prompt. By default, 'sessions' will be stored in the parent state of c-panel.
-			We should have a 'keep me logged in' button that creates an actual user session which persists.
+class ControlPanel extends React.Component {
+	state = {
+		loggedInUser: null,
+		token: '',
+		exp: '',
+	}
 
-			Here a user should be able to search their shift history by date range, update their information, get a 'quick overview'
-			of this week (maybe last too?) incluing shifts (maybe just total hours per day) and total pay (if applicable)
+	componentDidMount() {
+		if (window.localStorage.user)
+		{
+			this.setState(JSON.parse(window.localStorage.user))
+		}
+	}
 
-			Should also show or link to contact info for coworkers
+	handleLogin = newState => {
+		this.setState(newState);
+	}
 
-			if User is a manager, they will be able to search by user or by all users, update user info, edit, create or delete shifts*/}
-			<HistorySearcher />
-		</div>
-	)
+
+	handleLogout = () => {
+		this.setState({
+			loggedInUser: null,
+			token: '',
+			exp: '',
+		}, () => (window.localStorage.user = null) )
+	}
+
+	render () {
+		const user = this.state.loggedInUser;
+		console.log('cpanel props', this.props)
+		return (
+			<div id='punchr-app'>
+				<h3>Control Panel</h3>
+				{
+					user
+					?
+						<div>
+							<h4>Logged In As: {user.first_name} {user.last_name}</h4>
+							<p><button onClick={this.handleLogout}>Logout</button></p>
+							<Router>
+								<p><NavLink to='/control-panel/users'>All Users</NavLink></p>
+								<p><NavLink to='/control-panel/new-user'>Add New User</NavLink></p>
+								<p><NavLink to='/control-panel/history'>Search Shift History</NavLink></p>
+								<Route
+									exact path='/control-panel/history'
+									component={HistorySearcher} />
+								<Route
+									exact path='/control-panel/users'
+									render={() => <UserDetailsContainer
+										users={this.props.users}
+										loggedInUser={this.state.loggedInUser}
+										handleUpdateUser={this.props.handleUpdateUser}
+									 />}
+									/>
+								<Route
+									exact path='/control-panel/new-user'
+									component={Signup}
+								/>
+							</Router>
+							</div>
+					:
+						<Login onLogin={this.handleLogin} />
+				}
+			</div>
+		)
+	}
 }
 
 export default ControlPanel;

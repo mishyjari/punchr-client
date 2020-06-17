@@ -2,18 +2,18 @@ import React from 'react'
 import UserDetails from '../UserDetails'
 
 const UserDetailsContainer = (props) => {
-  const {loggedInUserId, managerIsLoggedIn, users, handleDelete, handleSubmit} = props
+  const {loggedInUser, users, handleDelete, handleUpdateUser} = props
 
+  console.log('user detail container props ', props)
   return (
     <div className="user-details-container">
       <h2>Users</h2>
       {users.map(user => (
-        <UserDetails 
-          user={user} 
-          loggedInUserId={loggedInUserId} 
-          managerIsLoggedIn={managerIsLoggedIn}
+        <UserDetails
+          user={user}
+          loggedInUser={loggedInUser}
           handleDelete={(event) => handleDelete(user)}
-          handleSubmit={handleSubmit}
+          handleUpdateUser={handleUpdateUser}
         />)
       )}
     </div>

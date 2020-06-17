@@ -8,6 +8,7 @@ class Signup extends React.Component {
 		email: '',
 		phone: '',
 		password: '',
+		wage: '',
 		confirmPw: ''
 	}
 
@@ -24,6 +25,7 @@ class Signup extends React.Component {
 			pin: Number(this.state.pin),
 			email: this.state.email,
 			phone: this.state.phone,
+			hourly_wage: this.state.wage,
 			password: this.state.password
 		}
 		e.target.reset();

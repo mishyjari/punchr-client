@@ -10,7 +10,10 @@ const ActiveShiftsContainer = props => {
 			{
 				props.shifts.length > 0
 				?
-					props.shifts.map(shift => <ActiveShift {...shift} />)
+					props.shifts.map(shift => <ActiveShift
+						{...shift}
+						closeShift={props.closeShift}
+						/>)
 				:
 					<h4>No Active Shifts</h4>
 
