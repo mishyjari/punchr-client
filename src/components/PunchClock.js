@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 class PunchClock extends React.Component {
 
 	render() {
+		console.log(this.props)
 		return (
 			<div id='punchr-app'>
 				<div id='punch-clock'>

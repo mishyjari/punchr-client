@@ -45,15 +45,35 @@ class ControlPanel extends React.Component {
 							<h4>Logged In As: {user.first_name} {user.last_name}</h4>
 							<p><button onClick={this.handleLogout}>Logout</button></p>
 							<Router>
-								<span><NavLink to='/control-panel/users'>All Users</NavLink></span>
-								<span><NavLink to='/control-panel/new-user'>Add New User</NavLink></span>
-								<span><NavLink to='/control-panel/history'>Search Shift History</NavLink></span>
+								<span class='nav'>
+									<NavLink
+									to='/control-panel/users'
+									activeStyle={{
+										fontWeight: 'bold',
+									}}>All Users</NavLink>
+								</span>
+								<span class='nav'>
+									<NavLink
+										to='/control-panel/new-user'
+										activeStyle={{
+											fontWeight: 'bold',
+										}}>Add New User</NavLink>
+									</span>
+								<span class='nav'>
+									<NavLink to='/control-panel/history'
+										activeStyle={{
+											fontWeight: 'bold',
+										}}>Search Shift History</NavLink>
+									</span>
 								<Route
 									exact path='/control-panel/history'
-									component={HistorySearcher} />
+									render={routerProps => <HistorySearcher
+										{...routerProps} />}
+										/>
 								<Route
 									exact path='/control-panel/users'
-									render={() => <UserDetailsContainer
+									render={routerProps => <UserDetailsContainer
+										{...routerProps}
 										users={this.props.users}
 										loggedInUser={this.state.loggedInUser}
 										handleUpdateUser={this.props.handleUpdateUser}

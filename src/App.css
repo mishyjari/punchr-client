@@ -30,6 +30,18 @@ div#details-main {
   margin: auto;
 }
 
+span.nav {
+  margin-right: 10px;
+  font-family: "courier";
+  text-decoration: none;
+}
+
+span.nav:hover {
+  font-family: "courier";
+  text-decoration: underline;
+  font-weight: bold;
+}
+
 .App {
   text-align: center;
 }
