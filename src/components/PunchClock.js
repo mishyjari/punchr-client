@@ -1,5 +1,6 @@
 import React from 'react';
-import ActiveShiftsContainer from './ActiveShiftsContainer'
+import '../App.css';
+
 
 const USERS_API = "http://localhost:3000/users";
 const SHIFTS_API = "http://localhost:3000/shifts";
@@ -45,12 +46,6 @@ class PunchClock extends React.Component {
 		};
 	};
 
-	handleChange = e => {
-		e.persist();
-	 	const newVal = e.target.value;
-	 	this.setState({ pin: newVal }, () => this.findUserByPin() )
-	};
-
 	findActiveShiftByUser = user => {
 		return this.state.activeShifts.find( shift => {
 			return (shift.user_id === user.id)
@@ -71,7 +66,7 @@ class PunchClock extends React.Component {
 				end: null
 			 })
 		})
-			.then( res => res.json() )
+			.then( (res,err) => res.json() )
 			.then( shift => {
 				shift.user = this.findUserByShift(shift);
 				this.setState(prevState => ({
@@ -104,49 +99,16 @@ class PunchClock extends React.Component {
 			})
 	}
 
-	handlePunch = e => {
-		e.preventDefault();
-		if ( this.state.selectedUser ){
-			const shift = this.findActiveShiftByUser(this.state.selectedUser);
-			if ( shift ){
-				this.closeShift(shift)
-			} else {
-				this.newPunch()
-			}
-		} else {
-			console.log('No user selected')
-		}
-	}
+
 
 	render() {
+		console.log(this.props)
 		return (
-			<div>
-				<form onSubmit={this.handlePunch}>
+			<div id='punchr-app'>
+				<form onSubmit={this.props.handlePunch}>
 					<label for='pin'>Enter PIN:</label><br />
-					<input type='text' name='pin' placeholder='XXXX' maxLength='4' value={this.state.pin} onChange={this.handleChange} /><br />
+					<input type='text' name='pin' placeholder='XXXX' maxLength='4' value={this.state.pin} onChange={this.props.handleChange} /><br />
 					<button type='submit'>PUNCH</button>
-					<table>
-						<tr>
-							<td>1</td>
-							<td>2</td>
-							<td>3</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>5</td>
-							<td>6</td>
-						</tr>
-						<tr>
-							<td>7</td>
-							<td>8</td>
-							<td>9</td>
-						</tr>
-						<tr>
-							<td>CL</td>
-							<td>0</td>
-							<td>BS</td>
-						</tr>
-					</table>
 				</form>
 				{
 					this.state.selectedUser
@@ -164,7 +126,7 @@ class PunchClock extends React.Component {
 					:
 						<p>user not found</p>
 				}
-				<ActiveShiftsContainer shifts={this.state.activeShifts} />
+
 			</div>
 		)
 	}

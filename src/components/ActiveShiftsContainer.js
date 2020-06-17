@@ -1,10 +1,11 @@
 import React from 'react'
 import ActiveShift from './ActiveShift.js';
+import '../stylesheets/Shifts.css';
 
 const ActiveShiftsContainer = props => {
 
 	return (
-		<div>
+		<div id='active-shifts-container'>
 			<h3>Active Shifts</h3>
 			{
 				props.shifts.length > 0
