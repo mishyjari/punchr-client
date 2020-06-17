@@ -161,34 +161,73 @@ class App extends React.Component {
 		})
 	}
 
+	addUser = data => {
+		console.log(data)
+		fetch(USERS_API, {
+			method: "POST",
+			headers: HEADERS,
+			body: JSON.stringify(data)
+		})
+		.then( res => res.json() )
+		.then( user => {
+				this.setState(prevState => ({
+					users: [...prevState.users, user]
+				}), alert("User Created!"))
+		})
+	}
+
+	loggedInUser = () => {
+		if (window.localStorage.user){
+			return JSON.parse(window.localStorage.user)
+		} else {
+			return false
+		}
+	}
+
 	render() {
-		console.log(this.state)
 		return (
 			<div id='main'>
 				<div id='header'>
 					<h1>Punchr</h1>
-				</div>
-				<Router>
-					<Route exact path='/' render={() => <PunchClock
-						{...this.state}
-						handlePunch={this.handlePunch}
-						handleChange={this.handleChange}
-						findActiveShiftByUser={this.findActiveShiftByUser}
-						closeShift={this.closeShift} />} />
-					<Route exact path='/control-panel' render={() => {
-							return <ControlPanel
-								users={this.state.users}
-								handleUpdateUser={this.handleUpdateUser}
-								handleShiftChange={this.handleOutsideShiftChange}
-								/>
-						}} />
-					<div id='navigation'>
-						<NavLink to='/'>Home</NavLink>
-						<br />
-						<NavLink to='/control-panel'>Control Panel</NavLink>
-					</div>
+						<div id='navigation'>
+							<Router>
 
-				</Router>
+								<Route exact path='/' render={routerProps => <PunchClock
+									{...routerProps}
+									{...this.state}
+									handlePunch={this.handlePunch}
+									handleChange={this.handleChange}
+									findActiveShiftByUser={this.findActiveShiftByUser}
+									closeShift={this.closeShift} />} />
+
+								<Route exact path='/control-panel' render={() => {
+										return <ControlPanel
+											users={this.state.users}
+											handleUpdateUser={this.handleUpdateUser}
+											addUser={this.addUser}
+											handleShiftChange={this.handleOutsideShiftChange}
+											/>
+									}} />
+
+								<span class='nav'>
+									<NavLink
+										strict to='/'
+										activeStyle={{
+											fontWeight: 'bold',
+										}}>Punch Clock</NavLink>
+								</span>
+
+								<span class='nav'>
+									<NavLink
+										strict to='/control-panel'
+										activeStyle={{
+											fontWeight: 'bold',
+										}}
+										>Control Panel</NavLink>
+								</span>
+							</Router>
+						</div>
+				</div>
 				<ActiveShiftsContainer
 					shifts={this.state.activeShifts}
 					closeShift={this.closeShift} />

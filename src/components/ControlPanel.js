@@ -1,8 +1,9 @@
 import React from 'react';
 import Login from './login.js'
 import HistorySearcher from './HistorySearcher.js';
-import Signup from './signup.js'
-import UserDetailsContainer from './containers/UserDetailsContainer.js'
+import Signup from './signup.js';
+import UserDetailsContainer from './containers/UserDetailsContainer.js';
+import UserDetails from './UserDetails.js'
 import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
 
 class ControlPanel extends React.Component {
@@ -34,7 +35,6 @@ class ControlPanel extends React.Component {
 
 	render () {
 		const user = this.state.loggedInUser;
-		console.log('cpanel props', this.props)
 		return (
 			<div id='punchr-app'>
 				<h3>Control Panel</h3>
@@ -45,20 +45,39 @@ class ControlPanel extends React.Component {
 							<h4>Logged In As: {user.first_name} {user.last_name}</h4>
 							<p><button onClick={this.handleLogout}>Logout</button></p>
 							<Router>
-								<p><NavLink to='/control-panel/users'>All Users</NavLink></p>
-								<p><NavLink to='/control-panel/new-user'>Add New User</NavLink></p>
-								<p><NavLink to='/control-panel/history'>Search Shift History</NavLink></p>
+								<span class='nav'>
+									<NavLink
+									to='/control-panel/users'
+									activeStyle={{
+										fontWeight: 'bold',
+									}}>All Users</NavLink>
+								</span>
+								<span class='nav'>
+									<NavLink
+										to='/control-panel/new-user'
+										activeStyle={{
+											fontWeight: 'bold',
+										}}>Add New User</NavLink>
+									</span>
+								<span class='nav'>
+									<NavLink to='/control-panel/history'
+										activeStyle={{
+											fontWeight: 'bold',
+										}}>Search Shift History</NavLink>
+									</span>
 								<Route
 									exact path='/control-panel/history'
-									render={() => <HistorySearcher 
+									render={(routerProps) => <HistorySearcher 
 										loggedInUser={this.state.loggedInUser} 
 										users={this.props.users} 
 										handleShiftChange={this.props.handleShiftChange}
+										{...routerProps}
 									/>}
 								/>
 								<Route
 									exact path='/control-panel/users'
-									render={() => <UserDetailsContainer
+									render={routerProps => <UserDetailsContainer
+										{...routerProps}
 										users={this.props.users}
 										loggedInUser={this.state.loggedInUser}
 										handleUpdateUser={this.props.handleUpdateUser}
@@ -66,7 +85,7 @@ class ControlPanel extends React.Component {
 									/>
 								<Route
 									exact path='/control-panel/new-user'
-									component={Signup}
+									render={() => <Signup addUser={this.props.addUser} />}
 								/>
 							</Router>
 							</div>

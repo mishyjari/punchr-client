@@ -12,13 +12,15 @@ class HistorySearcher extends React.Component {
   }
 
   getSearchUri = (start,end) => {
-    return `${SHIFTS_API}?start=${start.toISOString()}&end=${end.toISOString()}}`
+    return `${SHIFTS_API}?start=${start.toISOString()}&end=${end.toISOString()}`
   }
 
   componentDidMount() {
+    console.log(this.getSearchUri(this.state.start,this.state.end))
     fetch(this.getSearchUri(this.state.start,this.state.end))
     .then( res => res.json() )
     .then( shifts => {
+      console.log('shifts res', shifts)
       this.setState({ results: shifts })
     })
   };
@@ -63,7 +65,7 @@ class HistorySearcher extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id='history-searcher'>
         <h3>Search Shift History</h3>
         <form onSubmit={this.handleSearch} onChange={this.handleChange}>
           <label htmlFor="start">Start Date</label>
