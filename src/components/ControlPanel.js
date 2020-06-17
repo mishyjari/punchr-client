@@ -50,7 +50,12 @@ class ControlPanel extends React.Component {
 								<p><NavLink to='/control-panel/history'>Search Shift History</NavLink></p>
 								<Route
 									exact path='/control-panel/history'
-									component={HistorySearcher} />
+									render={() => <HistorySearcher 
+										loggedInUser={this.state.loggedInUser} 
+										users={this.props.users} 
+										handleShiftChange={this.props.handleShiftChange}
+									/>}
+								/>
 								<Route
 									exact path='/control-panel/users'
 									render={() => <UserDetailsContainer
