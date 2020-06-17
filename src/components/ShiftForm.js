@@ -18,7 +18,7 @@ class ShiftForm extends React.Component {
         date: start.toISOString().split('T')[0],
         user_id: props.shift.user_id,
         start_time: this.get24hTime(start),
-        end_time: this.get24hTime(end)
+        end_time: props.shift.end ? this.get24hTime(end) : "",
       }
     }
   }
