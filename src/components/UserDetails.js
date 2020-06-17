@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import ActiveShift from './ActiveShift.js';
 
 class UserDetails extends React.Component {
 
@@ -25,11 +26,14 @@ class UserDetails extends React.Component {
   }
 
   renderEditUserButtons = () => {
-    if (this.props.loggedInUserId === this.props.user.id || this.props.managerIsLoggedIn) {
+    if (this.props.loggedInUser &&
+      (this.props.loggedInUser.id === this.props.user.id
+        || this.props.loggedInUser.is_manager))
+      {
       return (
         <React.Fragment>
           <button onClick={() => this.setState(prev => ({edit: !prev.edit}))}>Edit</button>
-          <button onClick={this.props.handleDelete}>Delete</button>
+          <button onClick={() => alert("Not Implemented!")}>Delete</button>
         </React.Fragment>
       )
     } else return null
@@ -50,15 +54,15 @@ class UserDetails extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault()
     this.setState({edit: false})
-    this.props.handleSubmit({...this.state.form, id: this.props.user.id})
+    this.props.handleUpdateUser({...this.state.form, id: this.props.user.id})
   }
 
   renderEditForm = () => {
     if (this.state.edit) {
       let user = this.props.user
       return (
-        <form 
-          id={"edit-user-" + user.id} 
+        <form
+          id={"edit-user-" + user.id}
           onSubmit={this.handleSubmit}
           onChange={this.handleChange}
         >
@@ -77,10 +81,26 @@ class UserDetails extends React.Component {
     } else return null
   }
 
+  renderActiveShift = () => {
+    if (this.props.shift) {
+      return (
+        <ActiveShift
+          {...this.props.shift}
+          closeShift={this.props.closeShift} />
+      )
+    } else {
+      return <h4>No active shift</h4>
+    }
+  }
+
   render() {
+    console.log('shift prop: ', this.props.shift)
     return (
       <div className="user-details" id={"user-detail-" + this.props.user.id}>
-        <p>{this.props.user.first_name} {this.props.user.last_name} {this.props.user.email}</p>
+        <p><strong>Name: </strong>{this.props.user.first_name} {this.props.user.last_name}</p>
+        <p><strong>Email: </strong>{this.props.user.email}</p>
+        <p><strong>Phone: </strong>{this.props.user.phone}</p>
+        {this.renderActiveShift()}
         {this.props.user.is_manager ? <h5>Manager</h5> : null}
         {this.renderEditForm()}
         {this.renderEditUserButtons()}

@@ -5,13 +5,11 @@ class Login extends React.Component {
     email: '',
     password: '',
     successful: true,
-    token: '',
-		exp: '',
-		loggedInUser: {},
   }
-  
+
+
   renderFailedLogin = () => {
-    if (this.state.successful) return null 
+    if (this.state.successful) return null
     else return <p style={{backgroundColor: 'red'}}>Email or password incorrect.</p>
   }
 
@@ -26,6 +24,7 @@ class Login extends React.Component {
       email: this.state.email,
       password: this.state.password,
 		}
+		e.target.reset();
 		fetch('http://localhost:3000/sessions', {
 			method: "POST",
 			headers: {
@@ -38,18 +37,29 @@ class Login extends React.Component {
         if (res.status !== 200) {
           this.setState({
             successful: false,
-            token: '',
-						exp: '',
-						loggedInUser: {},
-          })
+          }, () => {
+						this.props.onLogin({
+							loggedInUser: null,
+							token: '',
+							exp: '',
+						})
+					})
         } else {
           res.json().then(json => {
             this.setState({
               successful: true,
-              token: json.token,
-							exp: json.exp,
-							loggedInUser: json.user,
-            })
+            }, () => {
+							this.props.onLogin({
+								loggedInUser: json.user,
+								token: json.token,
+								exp: json.exp
+							});
+							window.localStorage.user = JSON.stringify({
+								loggedInUser: json.user,
+								token: json.token,
+								exp: json.exp
+							})
+						})
           })
         }
       })

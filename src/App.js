@@ -3,13 +3,20 @@ import logo from './logo.svg';
 import './App.css';
 import ReactDOM from 'react-dom';
 import PunchClock from './components/PunchClock.js';
+import ControlPanel from './components/ControlPanel.js';
+import {deleteUser, updateUser} from './requests.js';
 
 
 import ActiveShiftsContainer from './components/ActiveShiftsContainer.js';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 
 const USERS_API = "http://localhost:3000/users";
+const SHIFTS_API = "http://localhost:3000/shifts";
 const ACTIVE_SHIFTS_API = "http://localhost:3000/shifts/current";
+const HEADERS = {
+	"Content-Type": "application/json",
+	"Accept": "application/json"
+};
 
 class App extends React.Component {
 
@@ -43,8 +50,6 @@ class App extends React.Component {
 		this.setState({ pin: newVal }, () => this.findUserByPin() )
 	};
 
-
-
 	handlePunch = e => {
 		e.preventDefault();
 		if ( this.state.selectedUser ){
@@ -59,7 +64,82 @@ class App extends React.Component {
 		}
 	}
 
+
+	findUserByPin = () => {
+		const pin = Number(this.state.pin);
+		const user = this.state.users.find(user => (user.pin === pin));
+		if (user) {
+			this.setState({ selectedUser: user })
+		} else {
+			this.setState({ selectedUser: null })
+		};
+	};
+
+	findActiveShiftByUser = user => {
+		return this.state.activeShifts.find( shift => {
+			return (shift.user_id === user.id)
+		})
+	}
+
+	findUserByShift = shift => {
+		return this.state.users.find(user => (user.id === shift.user_id))
+	};
+
+	newPunch = () => {
+		console.log('new punch')
+		fetch(SHIFTS_API, {
+			method: "POST",
+			headers: HEADERS,
+			body: JSON.stringify({
+				user_id: this.state.selectedUser.id,
+				end: null
+			 })
+		})
+			.then( (res,err) => res.json() )
+			.then( shift => {
+				shift.user = this.findUserByShift(shift);
+				this.setState(prevState => ({
+					activeShifts: [...prevState.activeShifts, shift],
+					pin: ''
+				}))
+				})
+	}
+
+	closeShift = shift => {
+		console.log('close shift');
+
+		let shiftArr = [...this.state.activeShifts];
+		const i = shiftArr.indexOf(shift);
+		shiftArr.splice(i,1);
+
+		fetch(SHIFTS_API + `/${shift.id}`, {
+			method: "PATCH",
+			headers: HEADERS,
+			body: JSON.stringify({
+				end: new Date()
+			})
+		})
+			.then( res => res.json() )
+			.then( shift => {
+				this.setState(prevState => ({
+					activeShifts: shiftArr,
+					pin: ''
+				}))
+			})
+	}
+
+	handleUpdateUser = newData => {
+		updateUser(newData)
+		.then( user => {
+			const users = [...this.state.users];
+			const index = users.findIndex(u => u.id === user.id);
+			users.splice(index,1,user);
+			this.setState({ users })
+		})
+	}
+
 	render() {
+		console.log(this.state)
 		return (
 			<div id='main'>
 				<div id='header'>
@@ -69,9 +149,25 @@ class App extends React.Component {
 					<Route exact path='/' render={() => <PunchClock
 						{...this.state}
 						handlePunch={this.handlePunch}
-						onChange={this.handleChange} />} />
+						handleChange={this.handleChange}
+						findActiveShiftByUser={this.findActiveShiftByUser}
+						closeShift={this.closeShift} />} />
+					<Route exact path='/control-panel' render={() => {
+							return <ControlPanel
+								users={this.state.users}
+								handleUpdateUser={this.handleUpdateUser}
+								/>
+						}} />
+					<div id='navigation'>
+						<NavLink to='/'>Home</NavLink>
+						<br />
+						<NavLink to='/control-panel'>Control Panel</NavLink>
+					</div>
+
 				</Router>
-				<ActiveShiftsContainer shifts={this.state.activeShifts} />
+				<ActiveShiftsContainer
+					shifts={this.state.activeShifts}
+					closeShift={this.closeShift} />
 			</div>
 		)
 	}
