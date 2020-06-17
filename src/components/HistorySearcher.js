@@ -11,8 +11,12 @@ class HistorySearcher extends React.Component {
     results: []
   }
 
-  componentWillMount() {
-    fetch(SHIFTS_API)
+  getSearchUri = (start,end) => {
+    return `${SHIFTS_API}?start=${start.toISOString()}&end=${end.toISOString()}}`
+  }
+
+  componentDidMount() {
+    fetch(this.getSearchUri(this.state.start,this.state.end))
     .then( res => res.json() )
     .then( shifts => {
       this.setState({ results: shifts })
@@ -22,12 +26,12 @@ class HistorySearcher extends React.Component {
 
   handleSearch = e => {
     e.preventDefault();
-    const results = this.state.results.filter(shift => {
-      return (Date.parse(shift.start) >= this.state.start) &&
-        (Date.parse(shift.start) <= this.state.end)
+    fetch(this.getSearchUri(this.state.start,this.state.end))
+      .then( res => res.json() )
+      .then( shifts => {
+        this.setState({ results: shifts })
     })
-    this.setState({ results: results })
-  };
+  }
 
   handleChange = e => {
     e.persist();

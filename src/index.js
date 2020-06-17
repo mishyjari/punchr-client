@@ -6,28 +6,32 @@ import * as serviceWorker from './serviceWorker';
 import PunchClock from './components/PunchClock.js';
 import ControlPanel from './components/ControlPanel.js';
 import Signup from './components/signup.js';
-import Login from './components/login'
+import Login from './components/login';
+import ActiveShiftsContainer from './components/ActiveShiftsContainer.js';
 
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-	<Router>
-		<div>
-			<NavLink to="/">Home</NavLink>
-			<NavLink to="/control-panel">Control Panel</NavLink>
-			<NavLink to='/users'>Users</NavLink>
-			<NavLink to='/login'>Login</NavLink>
-			<NavLink to='/signup'>Signup</NavLink>
-			<Route exact path='/' component={PunchClock} />
-			<Route exact path='/control-panel' component={ControlPanel} />
-			<Route exact path='/shifts' render={() => <div><h1>Shifts</h1></div>} />
-			<Route exact path='/users' render={() => <div><h1>Users</h1></div>} />
-			<Route exact path='/signup' component={Signup} />
-			<Route exact path='/login' component={Login} />
-		</div>
-	</Router>
+    {/* <div id='main'>
+      <App />
+    	<Router>
+    		<div id='body-container'>
+    			<NavLink to="/">Home</NavLink>
+    			<NavLink to="/control-panel">Control Panel</NavLink>
+    			<NavLink to='/users'>Users</NavLink>
+    			<NavLink to='/login'>Login</NavLink>
+    			<NavLink to='/signup'>Signup</NavLink>
+    			<Route exact path='/' component={PunchClock} />
+    			<Route exact path='/control-panel' component={ControlPanel} />
+    			<Route exact path='/shifts' render={() => <div><h1>Shifts</h1></div>} />
+    			<Route exact path='/users' render={() => <div><h1>Users</h1></div>} />
+    			<Route exact path='/signup' component={Signup} />
+    			<Route exact path='/login' component={Login} />
+    		</div>
+    	</Router>
+  </div> */}
+  <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
