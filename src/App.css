@@ -1,4 +1,5 @@
 div {
+  padding: 10px;
   border: 1px solid black;
 }
 
@@ -17,6 +18,16 @@ div#punchr-app {
 div#navigation {
   grid-row: 1;
   grid-column: 2;
+}
+
+div#punch-clock {
+  width: 40%;
+  margin: auto;
+}
+
+div#details-main {
+  width: 40%;
+  margin: auto;
 }
 
 .App {
