@@ -36,7 +36,7 @@ class ControlPanel extends React.Component {
 	render () {
 		const user = this.state.loggedInUser;
 		return (
-			<div id='punchr-app'>
+			<div id='cpanel'>
 				<h3>Control Panel</h3>
 				{
 					user
