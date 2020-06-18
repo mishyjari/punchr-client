@@ -122,7 +122,7 @@ class App extends React.Component {
 	removeShiftFromState = shift => {
 		let shiftArr = [...this.state.activeShifts];
 		const i = shiftArr.findIndex(elem => elem.id === shift.id)
-		if (i < 1) return
+		if (i < 0) return
 		shiftArr.splice(i, 1)
 		this.setState({activeShifts: shiftArr, pin: ''})
 	}
