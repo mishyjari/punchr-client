@@ -20,7 +20,6 @@ class HistorySearcher extends React.Component {
     fetch(this.getSearchUri(this.state.start,this.state.end))
     .then( res => res.json() )
     .then( shifts => {
-      console.log('shifts res', shifts)
       this.setState({ results: shifts })
     })
   };

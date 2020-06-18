@@ -5,6 +5,7 @@ import ShiftForm from './ShiftForm.js';
 const SearchResults = props => {
 
   let {results, loggedInUser, handleShiftUpdateOrCreate, users} = props
+  console.log(results.sort((a,b) => b.start - a.start))
   const managerHasAccess = loggedInUser && loggedInUser.is_manager
   return (
     <div id='search-results'>
