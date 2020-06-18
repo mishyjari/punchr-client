@@ -108,10 +108,6 @@ class App extends React.Component {
 	closeShift = shift => {
 		console.log('close shift');
 
-		let shiftArr = [...this.state.activeShifts];
-		const i = shiftArr.indexOf(shift);
-		shiftArr.splice(i,1);
-
 		fetch(SHIFTS_API + `/${shift.id}`, {
 			method: "PATCH",
 			headers: HEADERS,
@@ -120,12 +116,39 @@ class App extends React.Component {
 			})
 		})
 			.then( res => res.json() )
-			.then( shift => {
-				this.setState(prevState => ({
-					activeShifts: shiftArr,
-					pin: ''
-				}))
-			})
+			.then( shift => this.removeShiftFromState(shift))
+	}
+
+	removeShiftFromState = shift => {
+		let shiftArr = [...this.state.activeShifts];
+		const i = shiftArr.findIndex(elem => elem.id === shift.id)
+		if (i < 1) return
+		shiftArr.splice(i, 1)
+		this.setState({activeShifts: shiftArr, pin: ''})
+	}
+
+	addShiftInState = shift => {
+		this.setState(prevState => ({activeShifts: [...prevState.activeShifts, shift]}))
+	}
+
+	updateShiftInState = (shift, i) => {
+		let shiftArr = [...this.state.activeShifts]
+		shiftArr[i] = shift
+		this.setState({activeShifts: shiftArr})
+	}
+
+	addOrUpdateShiftInState = shift => {
+		const i = this.state.activeShifts.findIndex(elem => elem.id === shift.id)
+		if (i < 0) this.addShiftInState(shift)
+		else this.updateShiftInState(shift, i)
+	}
+
+	handleOutsideShiftChange = shift => {
+		// shift has already been sent to backend, has ID
+		
+		// update in DOM
+		if (shift.end) this.removeShiftFromState(shift)
+		else this.addOrUpdateShiftInState(shift)
 	}
 
 	handleUpdateUser = newData => {
@@ -182,6 +205,7 @@ class App extends React.Component {
 											users={this.state.users}
 											handleUpdateUser={this.handleUpdateUser}
 											addUser={this.addUser}
+											handleShiftChange={this.handleOutsideShiftChange}
 											/>
 									}} />
 

@@ -44,6 +44,25 @@ class HistorySearcher extends React.Component {
     }))
   }
 
+	addShiftInState = shift => {
+		this.setState(prevState => ({results: [...prevState.results, shift]}))
+	}
+
+	updateShiftInState = (shift, i) => {
+		let shiftArr = [...this.state.results]
+		shiftArr[i] = shift
+		this.setState({results: shiftArr})
+	}
+
+  // This will add a shift to results regardless of whether of not it is in range.
+  // todo: the above is for simplicity. We can do a check against the range as a stretch goal.
+	addOrUpdateShiftInState = shift => {
+		const i = this.state.results.findIndex(elem => elem.id === shift.id)
+		if (i < 0) this.addShiftInState(shift)
+    else this.updateShiftInState(shift, i)
+    this.props.handleShiftChange(shift)
+	}
+
   render() {
     return (
       <div id='history-searcher'>
@@ -55,7 +74,12 @@ class HistorySearcher extends React.Component {
           <input name="end" type="date" value={this.state.end.toISOString().split("T")[0]} />
           <button type='submit'>Search</button>
         </form>
-        <SearchResults results={this.state.results} />
+        <SearchResults 
+          users={this.props.users} 
+          results={this.state.results} 
+          loggedInUser={this.props.loggedInUser}
+          handleShiftUpdateOrCreate={this.addOrUpdateShiftInState}
+        />
       </div>
     )
   }

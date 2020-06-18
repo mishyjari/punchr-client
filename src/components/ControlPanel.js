@@ -67,9 +67,13 @@ class ControlPanel extends React.Component {
 									</span>
 								<Route
 									exact path='/control-panel/history'
-									render={routerProps => <HistorySearcher
-										{...routerProps} />}
-										/>
+									render={(routerProps) => <HistorySearcher 
+										loggedInUser={this.state.loggedInUser} 
+										users={this.props.users} 
+										handleShiftChange={this.props.handleShiftChange}
+										{...routerProps}
+									/>}
+								/>
 								<Route
 									exact path='/control-panel/users'
 									render={routerProps => <UserDetailsContainer
