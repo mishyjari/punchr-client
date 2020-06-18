@@ -49,8 +49,9 @@ class ShiftForm extends React.Component {
   }
 
   handleSubmit = (event) => {
-    let start = new Date(this.state.date)
-    let end = new Date(this.state.date)
+    // new Date(2020-06-17) == Tue Jun 16 2020 20:00:00 GMT-0400 (Eastern Daylight Time)
+    let start = new Date(this.state.date + ' 12:00')
+    let end = new Date(this.state.date + ' 12:00')
     let start_time = this.state.start_time.split(':')
     let end_time = this.state.end_time.split(':')
 
