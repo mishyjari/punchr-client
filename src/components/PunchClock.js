@@ -11,16 +11,16 @@ class PunchClock extends React.Component {
 			<div id='punchr-app'>
 				<div id='punch-clock'>
 					<form onSubmit={this.props.handlePunch}>
-						<label for='pin'>Enter PIN:</label><br />
 						<input
+							id='pin-input'
 							type='text'
 							name='pin'
-							placeholder='XXXX'
+							placeholder='PIN'
 							maxLength='4'
 							value={this.props.pin}
 							onChange={this.props.handleChange} />
 						<br />
-						<button type='submit'>PUNCH</button>
+						<button type='submit' id="punch-btn">PUNCH</button>
 					</form>
 				</div>
 				<div id='details-main'>

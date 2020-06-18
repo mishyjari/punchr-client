@@ -8,13 +8,12 @@ const ActiveShift = props => {
 	}
 
 	return (
-		<div>
+		<div class='active-shift'>
 			<h4>Active Shift Details  - Shift #{props.id}</h4>
 			<p><strong>Name: </strong>{props.user.first_name + " " + props.user.last_name}</p>
 			<p><strong>Opened: </strong>{new Date(props.start).toLocaleString()}</p>
 			<p><strong>Elapsed: </strong><em>{totalHours()}</em> hrs.</p>
 			<button onClick={() => props.closeShift(props)}>Close shift</button>
-			<hr />
 		</div>
 	)
 }
