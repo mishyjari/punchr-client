@@ -9,6 +9,7 @@ import {deleteUser, updateUser} from './requests.js';
 
 import ActiveShiftsContainer from './components/ActiveShiftsContainer.js';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import ShiftDayContainer from './components/containers/ShiftDayContainer';
 
 const USERS_API = "http://localhost:3000/users";
 const SHIFTS_API = "http://localhost:3000/shifts";
@@ -237,6 +238,8 @@ class App extends React.Component {
 				<ActiveShiftsContainer
 					shifts={this.state.activeShifts}
 					closeShift={this.closeShift} />
+				<ShiftDayContainer 
+					shifts={this.state.activeShifts} />
 			</div>
 		)
 	}
