@@ -37,11 +37,11 @@ class ControlPanel extends React.Component {
 		const user = this.state.loggedInUser;
 		return (
 			<div id='cpanel'>
-				<h3>Control Panel</h3>
+				<h2>Control Panel</h2>
 				{
 					user
 					?
-						<div>
+						<div id='cpanel-info'>
 							<h4>Logged In As: {user.first_name} {user.last_name}</h4>
 							<p><button onClick={this.handleLogout}>Logout</button></p>
 							<Router>
@@ -67,9 +67,9 @@ class ControlPanel extends React.Component {
 									</span>
 								<Route
 									exact path='/control-panel/history'
-									render={(routerProps) => <HistorySearcher 
-										loggedInUser={this.state.loggedInUser} 
-										users={this.props.users} 
+									render={(routerProps) => <HistorySearcher
+										loggedInUser={this.state.loggedInUser}
+										users={this.props.users}
 										handleShiftChange={this.props.handleShiftChange}
 										{...routerProps}
 									/>}

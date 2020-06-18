@@ -66,17 +66,16 @@ class HistorySearcher extends React.Component {
   render() {
     return (
       <div id='history-searcher'>
-        <h3>Search Shift History</h3>
         <form onSubmit={this.handleSearch} onChange={this.handleChange}>
-          <label htmlFor="start">Start Date</label>
+          <label htmlFor="start"><strong>Start Date: </strong></label>
           <input name="start" type="date" value={this.state.start.toISOString().split("T")[0]} />
-          <label htmlFor="end">End Date</label>
+          <label htmlFor="end"><strong>End Date: </strong></label>
           <input name="end" type="date" value={this.state.end.toISOString().split("T")[0]} />
           <button type='submit'>Search</button>
         </form>
-        <SearchResults 
-          users={this.props.users} 
-          results={this.state.results} 
+        <SearchResults
+          users={this.props.users}
+          results={this.state.results}
           loggedInUser={this.props.loggedInUser}
           handleShiftUpdateOrCreate={this.addOrUpdateShiftInState}
         />

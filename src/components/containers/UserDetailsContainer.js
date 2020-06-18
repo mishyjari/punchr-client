@@ -7,7 +7,6 @@ const UserDetailsContainer = (props) => {
   console.log('user detail container props ', props)
   return (
     <div className="user-details-container">
-      <h2>Users</h2>
       {users.map(user => (
         <UserDetails
           user={user}

@@ -10,6 +10,15 @@ h1 {
   color: #666692;
 }
 
+h2, h3, h4 {
+  font-family: courier;
+}
+
+div#navigation {
+  grid-row: 1;
+  grid-column: 1;
+}
+
 input#pin-input {
   background-color: #E9FFE9;
   border: 0;
@@ -42,22 +51,53 @@ div.active-shift {
 
 div#header {
   grid-row: 1;
-  grid-column: 1;
+  grid-column: 2;
   text-align: center;
 }
 
 div#punchr-app {
   text-align: center;
   grid-row: 2;
-  grid-column: 1
+  grid-column: 2
 }
 
 div#cpanel {
-  text-align: center;
-  width: 80%;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  background-color: #E9E9FF;
+  border-radius: 30px;
+
   margin: auto;
   grid-row: 2;
-  grid-column: 1
+  grid-column: 2
+}
+
+div#history-searcher {
+  border-radius: 10px;
+  box-shadow: inset 1px 1px 2px #353561;
+}
+
+div#search-results {
+  background-color: #F3F3FF;
+  border-radius: 20px;
+  margin-top: 10px;
+  box-shadow: inset 2px 2px 5px  #B7B7CD;
+}
+
+div.user-details {
+  background-color: #F3F3FF;
+  border-radius: 20px;
+  margin-top: 10px;
+  box-shadow: inset 2px 2px 5px  #B7B7CD;
+}
+
+div#cpanel-info {
+  padding-top: 10px;
+  padding-bottom: 30px;
+  background-color: #C5C5F1;
+  border-radius: 30px;
+  width: 95%;
+  margin: auto;
 }
 
 div#punch-clock {
@@ -65,7 +105,7 @@ div#punch-clock {
   padding-bottom: 30px;
   background-color: #C5C5F1;
   border-radius: 30px;
-  width: 40%;
+  width: 70%;
   margin: auto;
 }
 
@@ -75,7 +115,7 @@ div#details-main {
   padding-bottom: 30px;
   background-color: #E9E9FF;
   border-radius: 30px;
-  width: 40%;
+  width: 60%;
   margin: auto;
   margin-top: 10px;
 }

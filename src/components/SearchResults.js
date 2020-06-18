@@ -7,7 +7,7 @@ const SearchResults = props => {
   let {results, loggedInUser, handleShiftUpdateOrCreate, users} = props
   const managerHasAccess = loggedInUser && loggedInUser.is_manager
   return (
-    <div>
+    <div id='search-results'>
       <table>
         <tr>
           <th>Date</th>

@@ -145,7 +145,7 @@ class App extends React.Component {
 
 	handleOutsideShiftChange = shift => {
 		// shift has already been sent to backend, has ID
-		
+
 		// update in DOM
 		if (shift.end) this.removeShiftFromState(shift)
 		else this.addOrUpdateShiftInState(shift)
@@ -184,49 +184,55 @@ class App extends React.Component {
 		}
 	}
 
+	mainNavigation = () => {
+		return (
+			<div id="navigation">
+				<Router>
+					<Route exact path='/' render={routerProps => <PunchClock
+						{...routerProps}
+						{...this.state}
+						handlePunch={this.handlePunch}
+						handleChange={this.handleChange}
+						findActiveShiftByUser={this.findActiveShiftByUser}
+						closeShift={this.closeShift} />} />
+
+					<Route exact path='/control-panel' render={() => {
+							return <ControlPanel
+								users={this.state.users}
+								handleUpdateUser={this.handleUpdateUser}
+								addUser={this.addUser}
+								handleShiftChange={this.handleOutsideShiftChange}
+								/>
+						}} />
+
+					<span class='nav'>
+						<NavLink
+							strict to='/'
+							activeStyle={{
+								fontWeight: 'bold',
+							}}>Punch Clock</NavLink>
+					</span>
+
+					<span class='nav'>
+						<NavLink
+							strict to='/control-panel'
+							activeStyle={{
+								fontWeight: 'bold',
+							}}
+							>Control Panel</NavLink>
+					</span>
+				</Router>
+			</div>
+		)
+	}
+
 	render() {
 		return (
 			<div id='main'>
+
 				<div id='header'>
 					<h1>Punchr</h1>
-						<div id='navigation'>
-							<Router>
-
-								<Route exact path='/' render={routerProps => <PunchClock
-									{...routerProps}
-									{...this.state}
-									handlePunch={this.handlePunch}
-									handleChange={this.handleChange}
-									findActiveShiftByUser={this.findActiveShiftByUser}
-									closeShift={this.closeShift} />} />
-
-								<Route exact path='/control-panel' render={() => {
-										return <ControlPanel
-											users={this.state.users}
-											handleUpdateUser={this.handleUpdateUser}
-											addUser={this.addUser}
-											handleShiftChange={this.handleOutsideShiftChange}
-											/>
-									}} />
-
-								<span class='nav'>
-									<NavLink
-										strict to='/'
-										activeStyle={{
-											fontWeight: 'bold',
-										}}>Punch Clock</NavLink>
-								</span>
-
-								<span class='nav'>
-									<NavLink
-										strict to='/control-panel'
-										activeStyle={{
-											fontWeight: 'bold',
-										}}
-										>Control Panel</NavLink>
-								</span>
-							</Router>
-						</div>
+					{this.mainNavigation()}
 				</div>
 				<ActiveShiftsContainer
 					shifts={this.state.activeShifts}
