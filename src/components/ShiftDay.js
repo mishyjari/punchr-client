@@ -7,7 +7,7 @@ class ShiftDay extends React.Component {
     super(props)
     this.chartRef = React.createRef()
   }
-  
+
   // swap axes: https://stackoverflow.com/questions/37863112/chart-js-how-to-invert-swap-axes
   componentDidUpdate() {
     let date = this.props.date
@@ -86,8 +86,8 @@ class ShiftDay extends React.Component {
             unit: 'hour',
             unitStepSize: 4,
             displayFormats: {
-              'minute': 'HH:mm', 
-              'hour': 'HH:mm', 
+              'minute': 'HH:mm',
+              'hour': 'HH:mm',
               min: '00:00',
               max: '23:59'
             },
